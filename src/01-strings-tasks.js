@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* *******************************************************************************************
  *                                                                                           *
  * Please read the following tutorial before implementing tasks:                              *
@@ -180,8 +181,8 @@ function convertToUpperCase(str) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -207,8 +208,50 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const leftTopCorner = '┌';
+  const rightTopCorner = '┐';
+  const leftBottomCorner = '└';
+  const rightBottomCorner = '┘';
+  const horizontalLine = '─';
+  const verticalLine = '│';
+  const lineBreak = '\n';
+
+  let result = '';
+
+  for (let i = 0; i < 3; i++) {
+    if (i === 0) {
+      result += leftTopCorner;
+      for (let j = 0; j < width - 2; j++) {
+        result += horizontalLine;
+      }
+      result += rightTopCorner;
+      result += lineBreak;
+    }
+
+    if (i === 1) {
+      let whitespaces = '';
+      for (let k = 0; k < width - 2; k++) {
+        whitespaces += ' ';
+      }
+      for (let n = 0; n < height - 2; n++) {
+        result += verticalLine;
+        result += whitespaces;
+        result += verticalLine;
+        result += lineBreak;
+      }
+    }
+
+    if (i === 2) {
+      result += leftBottomCorner;
+      for (let j = 0; j < width - 2; j++) {
+        result += horizontalLine;
+      }
+      result += rightBottomCorner;
+      result += lineBreak;
+    }
+  }
+  return result;
 }
 
 
@@ -228,8 +271,31 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alphabet = ['A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z'];
+
+  const strArr = str.split('');
+  const result = [];
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < strArr.length; i++) {
+    if (alphabet.indexOf(strArr[i]) !== -1) {
+      if (strArr[i] === strArr[i].toLowerCase()) {
+        if (strArr[i].charCodeAt(0) + 13 <= 122) {
+          result.push(String.fromCharCode(strArr[i].charCodeAt(0) + 13));
+        } else {
+          result.push(String.fromCharCode(strArr[i].charCodeAt(0) - 13));
+        }
+      } else if (strArr[i].charCodeAt(0) + 13 <= 90) {
+        result.push(String.fromCharCode(strArr[i].charCodeAt(0) + 13));
+      } else {
+        result.push(String.fromCharCode(strArr[i].charCodeAt(0) - 13));
+      }
+    } else {
+      result.push(strArr[i]);
+    }
+  }
+  return result.join('');
 }
 
 /**
@@ -274,8 +340,13 @@ function isString(value) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const cards = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠',
+  ];
+  return cards.indexOf(value);
 }
 
 
