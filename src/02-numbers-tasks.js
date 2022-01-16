@@ -8,7 +8,6 @@
  *                                                                                           *
  ******************************************************************************************* */
 
-
 /**
  * Returns an area of a rectangle given by width and height.
  *
@@ -23,7 +22,6 @@
 function getRectangleArea(width, height) {
   return width * height;
 }
-
 
 /**
  * Returns a circumference of circle given by radius.
@@ -57,7 +55,13 @@ function getAverage(value1, value2) {
   // const max = Math.max(value1, value2);
 
   // eslint-disable-next-line radix
-  return parseInt(value1 / 2) + parseInt(value2 / 2) + (((value1 % 2) + (value2 % 2)) / 2);
+  return (
+    // eslint-disable-next-line radix
+    parseInt(value1 / 2)
+    // eslint-disable-next-line radix
+    + parseInt(value2 / 2)
+    + ((value1 % 2) + (value2 % 2)) / 2
+  );
 }
 
 /**
@@ -77,8 +81,8 @@ function getAverage(value1, value2) {
  */
 function getDistanceBetweenPoints(x1, y1, x2, y2) {
   // eslint-disable-next-line no-restricted-properties
-  const xPow = Math.pow((x2 - x1), 2);
-  const yPow = Math.pow((y2 - y1), 2);
+  const xPow = Math.pow(x2 - x1, 2);
+  const yPow = Math.pow(y2 - y1, 2);
   return Math.sqrt(xPow + yPow);
 }
 
@@ -97,7 +101,6 @@ function getDistanceBetweenPoints(x1, y1, x2, y2) {
 function getLinearEquationRoot(/* a, b */) {
   throw new Error('Not implemented');
 }
-
 
 /**
  * Returns an angle (in radians) between two vectors given by xi and yi,
@@ -133,10 +136,10 @@ function getAngleBetweenVectors(/* x1, y1, x2, y2 */) {
  *     5     => 5
  *     0     => 0
  */
-function getLastDigit(/* value */) {
-  throw new Error('Not implemented');
+function getLastDigit(value) {
+  const numArr = value.toString().split('');
+  return numArr[numArr.length - 1];
 }
-
 
 /**
  * Returns a number by given string representation.
@@ -149,8 +152,8 @@ function getLastDigit(/* value */) {
  *     '37'     => 37
  * '-525.5'     => -525.5
  */
-function parseNumberFromString(/* value */) {
-  throw new Error('Not implemented');
+function parseNumberFromString(value) {
+  return +value;
 }
 
 /**
@@ -166,10 +169,9 @@ function parseNumberFromString(/* value */) {
  *   3,3,3   => 5.196152422706632
  *   1,2,3   => 3.741657386773941
  */
-function getParallelepipedDiagonal(/* a, b, c */) {
-  throw new Error('Not implemented');
+function getParallelepipedDiagonal(a, b, c) {
+  return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2) + Math.pow(c, 2));
 }
-
 
 /**
  * Returns the number rounded to specified power of 10.
@@ -209,8 +211,20 @@ function roundToPowerOfTen(/* num, pow */) {
  *   16 => false
  *   17 => true
  */
-function isPrime(/* n */) {
-  throw new Error('Not implemented');
+function isPrime(n) {
+  let isNumPrime = true;
+
+  if (n === 1) {
+    isNumPrime = false;
+  } else if (n > 1) {
+    for (let i = 2; i < n; i += 1) {
+      if (n % i === 0) {
+        isNumPrime = false;
+        break;
+      }
+    }
+  }
+  return isNumPrime;
 }
 
 /**
@@ -228,8 +242,12 @@ function isPrime(/* n */) {
  *   toNumber(42, 0) => 42
  *   toNumber(new Number(42), 0) => 42
  */
-function toNumber(/* value, def */) {
-  throw new Error('Not implemented');
+function toNumber(value, def) {
+  const isNum = parseInt(value, 10);
+  if (value instanceof Number || isNum) {
+    return value;
+  }
+  return def;
 }
 
 module.exports = {
