@@ -349,13 +349,14 @@ function get3TopItems(arr) {
  *   [ 1, '2' ] => 1
  */
 function getPositivesCount(arr) {
-  let count = 0;
-  for (let i = 0; i < arr.length; i += 1) {
-    if (arr[i] > 0) {
-      count++;
-    }
-  }
-  return count;
+  // let count = 0;
+  // for (let i = 0; i < arr.length; i += 1) {
+  //   if (arr[i] > 0) {
+  //     count++;
+  //   }
+  // }
+  // return count;
+  return arr.filter((elem) => typeof elem === 'number' && elem > 0).length;
 }
 
 /**
