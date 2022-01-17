@@ -51,17 +51,7 @@ function getCircleCircumference(radius) {
  *  -3, 3  => 0
  */
 function getAverage(value1, value2) {
-  // const min = Math.min(value1, value2);
-  // const max = Math.max(value1, value2);
-
-  // eslint-disable-next-line radix
-  return (
-    // eslint-disable-next-line radix
-    parseInt(value1 / 2)
-    // eslint-disable-next-line radix
-    + parseInt(value2 / 2)
-    + ((value1 % 2) + (value2 % 2)) / 2
-  );
+  return value1 / 2 + value2 / 2;
 }
 
 /**

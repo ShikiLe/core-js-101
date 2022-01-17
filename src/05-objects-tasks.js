@@ -6,7 +6,6 @@
  *                                                                                                *
  ************************************************************************************************ */
 
-
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
  *
@@ -31,7 +30,6 @@ function Rectangle(width, height) {
   return rectangle;
 }
 
-
 /**
  * Returns the JSON representation of specified object
  *
@@ -46,7 +44,6 @@ function getJSON(obj) {
   return JSON.stringify(obj);
 }
 
-
 /**
  * Returns the object of specified type from JSON representation
  *
@@ -58,10 +55,13 @@ function getJSON(obj) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  // throw new Error('Not implemented');
+  const temp = JSON.parse(json);
+  // eslint-disable-next-line no-proto
+  temp.__proto__ = proto;
+  return temp;
 }
-
 
 /**
  * Css selectors builder
@@ -146,7 +146,6 @@ const cssSelectorBuilder = {
     throw new Error('Not implemented');
   },
 };
-
 
 module.exports = {
   Rectangle,
