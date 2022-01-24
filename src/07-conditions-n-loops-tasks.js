@@ -130,8 +130,43 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  // const TL1 = { x: rect1.left, y: rect1.top };
+  // const BR1 = { y: rect1.top - rect1.height, x: rect1.left + rect1.width };
+  // const TL2 = { x: rect2.left, y: rect2.top };
+  // const BR2 = { x: rect2.left + rect2.width, y: rect2.top - rect2.height };
+
+  // if (TL1.x === BR1.x || TL1.y === BR1.y || TL2.x === BR2.x || TL2.y === BR2.y) {
+  //   return false;
+  // }
+
+  // if (TL1.x >= BR2.x || TL2.x >= BR1.x) {
+  //   return false;
+  // }
+
+  // if (BR1.y >= TL2.y || BR2.y >= TL1.y) {
+  //   return false;
+  // }
+
+  const a = {
+    x1: rect1.left,
+    y1: rect1.top,
+    x2: rect1.left + rect1.width,
+    y2: rect1.top - rect1.height,
+  };
+  const b = {
+    x1: rect2.left,
+    y1: rect2.top,
+    x2: rect2.left + rect2.width,
+    y2: rect2.top - rect2.height,
+  };
+
+  if (a.x1 >= b.x2 || b.x1 >= a.x2) return false;
+
+  // no vertical overlap
+  if (a.y1 >= b.y2 || b.y1 >= a.y2) return false;
+
+  return true;
 }
 
 /**
@@ -160,8 +195,15 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  if (
+    (point.x - circle.center.x) * (point.x - circle.center.x)
+      + (point.y - circle.center.y) * (point.y - circle.center.y)
+    <= circle.radius * circle.radius
+  ) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -292,8 +334,27 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  if (/[^0-9-\s]+/.test(ccn)) return false;
+
+  let nCheck = 0;
+  let bEven = false;
+  // eslint-disable-next-line no-param-reassign
+  ccn = ccn.toString().replace(/\D/g, '');
+
+  // eslint-disable-next-line no-plusplus
+  for (let n = ccn.length - 1; n >= 0; n--) {
+    const cDigit = ccn.charAt(n);
+    let nDigit = parseInt(cDigit, 10);
+
+    // eslint-disable-next-line no-cond-assign
+    if (bEven && (nDigit *= 2) > 9) nDigit -= 9;
+
+    nCheck += nDigit;
+    bEven = !bEven;
+  }
+
+  return (nCheck % 10) === 0;
 }
 
 /**
@@ -310,8 +371,19 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const temp = num.toString().split('');
+  let result = 0;
+
+  for (let i = 0; i < temp.length; i += 1) {
+    result += +temp[i];
+  }
+
+  if (result > 9) {
+    return getDigitalRoot(result);
+  }
+
+  return result;
 }
 
 /**
@@ -335,8 +407,34 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const openingBrackets = ['[', '(', '{', '<'];
+  const closingBrackets = [']', ')', '}', '>'];
+
+  const stack = [];
+  const tempArr = str.split('');
+
+  if (str === '') {
+    return true;
+  }
+
+  if (openingBrackets.indexOf(tempArr[0]) === -1) {
+    return false;
+  }
+
+  for (let i = 0; i < tempArr.length; i += 1) {
+    if (openingBrackets.indexOf(tempArr[i]) !== -1) {
+      stack.push(tempArr[i]);
+    } else {
+      const ind = closingBrackets.indexOf(tempArr[i]);
+      if (stack[stack.length - 1] === openingBrackets[ind]) {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
 }
 
 /**

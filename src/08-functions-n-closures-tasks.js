@@ -44,10 +44,13 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  function power(a, b) {
+    return b ** a;
+  }
+  const result = power.bind(null, exponent);
+  return result;
 }
-
 
 /**
  * Returns the polynom function of one argument based on specified coefficients.

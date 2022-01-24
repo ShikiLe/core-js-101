@@ -117,35 +117,97 @@ function fromJSON(proto, json) {
  *  For more examples see unit tests.
  */
 
-const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
-  },
+// const cssSelectorBuilder = {
+//   constructor(state) {
+//     // eslint-disable-next-line no-bitwise
+//     this.generalState = state;
+//   },
+//   state: [],
+//   element(value) {
+//     this.state.push(value);
+//     return cssSelectorBuilder(this.state);
+//   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
-  },
+//   id(value) {
+//     this.state.push(`#${value}`);
+//     return cssSelectorBuilder(this.state);
+//   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
-  },
+//   class(value) {
+//     this.state.push(`.${value}`);
+//     return this;
+//   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
-  },
+//   attr(value) {
+//     this.state.push(`[${value}]`);
+//     return this;
+//   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
-  },
+//   pseudoClass(value) {
+//     this.state.push(`:${value}`);
+//     return this;
+//   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
-  },
+//   pseudoElement(value) {
+//     this.state.push(`::${value}`);
+//     return this;
+//   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
-  },
-};
+//   combine(selector1, combinator, selector2) {
+//     this.state.push(`${selector1} ${combinator} ${selector2}`);
+//     return this;
+//   },
+//   stringify() {
+//     return this.generalState.join('');
+//   },
+// };
+
+class CssSelectorBuilder {
+  constructor(state) {
+    this.state = state;
+  }
+
+  element(value) {
+    this.state.push(value);
+    return new CssSelectorBuilder(this.state);
+  }
+
+  id(value) {
+    this.state.push(`#${value}`);
+    return new CssSelectorBuilder(this.state);
+  }
+
+  class(value) {
+    this.state.push(`.${value}`);
+    return new CssSelectorBuilder(this.state);
+  }
+
+  attr(value) {
+    this.state.push(`[${value}]`);
+    return new CssSelectorBuilder(this.state);
+  }
+
+  pseudoClass(value) {
+    this.state.push(`:${value}`);
+    return new CssSelectorBuilder(this.state);
+  }
+
+  pseudoElement(value) {
+    this.state.push(`::${value}`);
+    return new CssSelectorBuilder(this.state);
+  }
+
+  combine(selector1, combinator, selector2) {
+    this.state.push(`${selector1} ${combinator} ${selector2}`);
+    return new CssSelectorBuilder(this.state);
+  }
+
+  stringify() {
+    return this.state.join('');
+  }
+}
+
+const cssSelectorBuilder = new CssSelectorBuilder([]);
 
 module.exports = {
   Rectangle,
